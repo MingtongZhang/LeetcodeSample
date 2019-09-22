@@ -1,0 +1,27 @@
+//The question is #62 unique path, and this is a dynamic programming solution sample
+//General Idea: Though it is hard to know how many ways are there to reach a far away node, it is very easy to figure out a way to count how many ways are there for reaching a node near another node for which the number of ways to reach is already known, and for the first node, the steps needed to reach it is definitely 1. Hence we can radiate from the original node one step once by a simple formula and finally reach the node we would like to know.
+
+
+class Solution {
+    public int uniquePaths(int m, int n) {
+        //this is to duplicate all the nodes we have in their exact locations
+        int[][] dpMap = new int[n][m];
+        //for the first row and the first column, it is intuitive that there is only one way to reach them, which is to go left(down) no constantly
+        for(int i=0;i<m;i++){
+            dpMap[0][i]=1;
+        }
+        for(int i=0;i<n;i++){
+            dpMap[i][0]=1;
+        }
+        //then, for every other nodes, the number of ways to reach it is the sum of the numbers of ways to reach its upper and left adjcent nodes
+        for(int i=1;i<n;i++){
+            for(int j=1;j<m;j++){
+                dpMap[i][j]=dpMap[i-1][j]+dpMap[i][j-1];
+            }
+        }
+        //and finally, the answer require us return the number of ways to reach the bottom 
+        return dpMap[n-1][m-1];
+        
+    }
+
+}
